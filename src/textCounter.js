@@ -23,6 +23,7 @@
         };
 
         TextCounter.prototype.count = function count(text) {
+            if (!text) { return new TextCountResult({ counter: 0, text: "" })  }
             var self = this;
             return new TextCountResult({
                 counter: text.length,
@@ -31,6 +32,7 @@
         };
 
         TextCounter.prototype.reverseCount = function reverseCount(text) {
+            if (!text) { return new TextCountResult({ counter: this.maxLength, text: "" }) }
             var self = this,
                 returnObj = {},
                 currentLength = text.length;
@@ -71,13 +73,11 @@
             template: '<span></span>',
             link: function ($scope, el, attrs) {
 
-                var currentLength = $scope.text.length,
-                        maxLength = attrs.maxLength,
+                var maxLength = attrs.maxLength,
                         constrain = attrs.constrain,
                         reverse = attrs.reverse;
 
                 var options = {
-                    currentLength: currentLength,
                     maxLength: maxLength,
                     constrain: constrain,
                     reverse: reverse
@@ -89,7 +89,6 @@
                     var returnObj = $scope.theCounter.init($scope.text);
                     $scope.text = returnObj.text;
                     el.text(returnObj.counter);
-
                 });
 
             }
